@@ -10,6 +10,7 @@ class CalorieTracker {
     this._displayCaloriesBurned();
     this._displayCaloriesRemaining();
     this._displayCaloriesProgress();
+    //this._render();
    }
 
    // Public Methods/APIs //
@@ -87,20 +88,40 @@ class Workout{
     }
 }
 
-const tracker = new CalorieTracker();
-const breakFast = new Meal("Breakfast", 400);
-const lunch = new Meal("Lunch", 500);
-const dinner = new Meal("Dinner", 600);
+class App{
+    constructor(){
+        
+        this._tracker = new CalorieTracker();
+        document
+        .getElementById("meal-form")
+        .addEventListener('submit',this._newMeal.bind(this));
+        console.log("App is running");
+        console.log(this._tracker);
+    }
+    _newMeal(){
+        console.log("New Meal");
+        
+        //event.preventdefault();
 
-tracker.addMeal(breakFast);
-tracker.addMeal(lunch);
-tracker.addMeal(dinner);
+        const name = document.getElementById("meal-name");
+        const calories = document.getElementById("meal-calories");
+        console.log(name.value);
+        console.log(calories.value);
 
-const run = new Workout("Run", 300);
-const gym = new Workout("Gym", 500);
+        if (name.value === '' || calories.value === ''){
+            alert("Please fill all fields");
+            return;
+        }
+        console.log(name.value);
+        console.log(calories.value);
+        const meal = new Meal(name.value, +calories.value);
+        this._tracker.addMeal(meal);
+        name.value = "";
+        calories.value = "";
+        console.log(meal);
+        console.log(this._tracker);
 
-tracker.addWorkout(run);
-tracker.addWorkout(gym);
+    }
+}
 
-
-console.log(tracker);
+const app = new App();
